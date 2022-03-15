@@ -5,7 +5,7 @@ on:
       - master
 env:
   HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-  IMAGE_NAME: registry.heroku.com/docker-heroku-github-react/web
+  IMAGE_NAME: registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
 
 jobs:
   cd:
@@ -22,4 +22,4 @@ jobs:
       - name: PUSH IMAGE to Docker
         uses: docker push ${{env.IMAGE_NAME}}
       - name: Release
-        uses: heroku container:release web -a docker-heroku-github-react
+        uses: heroku container:release web -a ${{secrets.HEROKU_APP_NAME}}
