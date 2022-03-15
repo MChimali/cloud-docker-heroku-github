@@ -1,4 +1,5 @@
 name: Continuos Deployment workflow
+
 on:
   push:
     branches:
@@ -13,11 +14,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Login Heroku
-        uses: heroku container:login
-      - name: BUILD DOCKER IMAGE
-        uses: docker build -t ${{env.IMAGE_NAME}} .
-      - name: PUSH IMAGE to Docker
-        uses: docker push ${{env.IMAGE_NAME}}
+      - name: Heroku login
+        run: heroku container:login
+      - name: Build docker image
+        run: docker build -t ${{ env.IMAGE_NAME }} .
+      - name: Deploy docker image
+        run: docker push ${{ env.IMAGE_NAME }}
       - name: Release
-        uses: heroku container:release web -a ${{secrets.HEROKU_APP_NAME}}
+        run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
