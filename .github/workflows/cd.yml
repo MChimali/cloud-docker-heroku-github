@@ -1,0 +1,24 @@
+name: Continuos Deployment workflow
+on:
+  push:
+    branches:
+      - master
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Heroku CLI
+        uses: curl https://cli-assets.heroku.com/install.sh | sh
+      - name: Login Heroku
+        uses: heroku container:login
+      - name: BUILD DOCKER IMAGE
+        uses: docker build -t my-app .
+      - name: PUSH IMAGE to Docker
+        uses: docker push my-app
+      - name: Release
+        uses: heroku container:release web -a docker-heroku-github-react

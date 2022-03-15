@@ -24,3 +24,11 @@
     "docker run --name practice-container -p8083:8080 react-practice:1"
 
 4. 
+name: Continuous Deployment workflow
+on:
+  push:
+    branches:
+      - master
+jobs:
+  cd:
+    runs-on: ubuntu-latest
