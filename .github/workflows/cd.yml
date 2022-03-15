@@ -1,4 +1,5 @@
 name: Continuos Deployment workflow
+
 on:
   push:
     branches:
@@ -12,13 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
+      - name: Install Heroku CLI
+        uses: curl https://cli-assets.heroku.com/install.sh | sh
       - name: Login Heroku
-        uses: heroku container:login
+        run: heroku container:login
       - name: BUILD DOCKER IMAGE
-        uses: docker build -t ${{ env.IMAGE_NAME }} .
+        run: docker build -t ${{ env.IMAGE_NAME }} .
       - name: PUSH IMAGE to Docker
-        uses: docker push ${{ env.IMAGE_NAME }}
+        run: docker push ${{ env.IMAGE_NAME }}
       - name: Release
-        uses: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
+        run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
 
