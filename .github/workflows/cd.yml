@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Install Heroku CLI
-        uses: curl https://cli-assets.heroku.com/install.sh | sh
+        run: curl https://cli-assets.heroku.com/install.sh | sh
       - name: Login Heroku
         run: heroku container:login
       - name: BUILD DOCKER IMAGE
